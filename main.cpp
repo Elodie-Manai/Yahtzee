@@ -15,11 +15,11 @@ int main()
 
     for (unsigned i = 0; i < LAPS && dicesKept < DICE_NUMBER; i++)
     {
-            printf("turn %d\n", i + 1);
-            throwDices(DICE_NUMBER - dicesKept, dices);
-            // choose dices to keep
-            dicesKept += chooseDices(DICE_NUMBER - dicesKept, choices, dices);
-            memset(dices, 0, DICE_NUMBER);
+        printf("turn %d\n", i + 1);
+        throwDices(DICE_NUMBER - dicesKept, dices);
+        // choose dices to keep
+        dicesKept += chooseDices(DICE_NUMBER - dicesKept, choices, dices);
+        memset(dices, 0, DICE_NUMBER);
     }
 
     return 0;
