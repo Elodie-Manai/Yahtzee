@@ -1,2 +1,0 @@
-# Yahtzee
-Blurp
