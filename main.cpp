@@ -1,4 +1,4 @@
-#include <iostream>
+// #include <iostream>
 #include <stdio.h> // standard I/O, pour pouvoir gérer l'entrée sortie (genre les printf)
 #include <stdlib.h>
 #include <cstdio>
@@ -19,15 +19,20 @@ int main()
     unsigned choices[DICE_NUMBER];
     unsigned dicesKept = 0;
 
+    memset(dices, 0, DICE_NUMBER);
+    memset(&choices, 0, sizeof(choices));
+
     for (unsigned i = 0; i < LAPS && dicesKept < DICE_NUMBER; i++)
     {
+        dicesKept = 0;
         printf("--- Turn %d ---\n", i + 1);
-        throwDices(DICE_NUMBER - dicesKept, dices);
-        showDices(dices, DICE_NUMBER - dicesKept, "The dices you thrown are:");
+        throwDices(DICE_NUMBER, dices);
+        showDices(dices, DICE_NUMBER, "The dices you thrown are:");
         printf("Choose your dices wisely!\n");
         dicesKept += chooseDices(DICE_NUMBER - dicesKept, choices, dices);
-        showDices(choices, DICE_NUMBER - dicesKept, "The dices you chose are:");
+        showDices(choices, dicesKept, "The dices you chose are:");
         memset(dices, 0, DICE_NUMBER);
+        memset(&choices, 0, sizeof(choices));
     }
     return 0;
 }
@@ -44,28 +49,28 @@ int throwDices(unsigned diceNumber, unsigned *input)
 int chooseDices(unsigned diceNumber, unsigned *input, unsigned *dices)
 {
     char choice;
+    unsigned index = 0;
     int i;
-    printf("Dice number: %d\n", diceNumber);
-    printf("choice: %c\n", choice);
-    for (i = 0; i < 1 && choice != 'c'; i++)
+    // printf("Dice number: %d\n", diceNumber);
+
+    for (i = 0; i < diceNumber && choice != 'c'; i++)
     {
         //choice = '\0';
-        std::scanf(&choice);
+        printf("Vous pouvez encore garder jusqu'à %d dé(s), c pour quitter :", diceNumber - i);
+        memset(&choice, 0, sizeof(choice));
+        std::scanf(" %c", &choice);
+        // fgets("%c", 1, stdin);
         // cin >> (choice);
-        std::fflush(stdin);
-        printf("input is: %c %d\n", choice, (int) choice - '0');
-        if (choice != 'c')
-        {
-            choice = (unsigned)choice - 1;
-            if (choice >= 0 && choice <= diceNumber)
-            {
-                input[choice] = dices[choice];
-            }
-            else
-            {
-                //i--;
-            }
+        // stdin > choice
+        // memset(stdin, 0, sizeof(stdin));
+        index = ((int) choice - '0') - 1;
+        if (choice == 'c') return i;
+
+        if (index >= 0 && index < diceNumber) {
+            input[index] = dices[index];
+            printf("Vous avez gardé le dé numéro %d de valeur %d\n", index + 1, input[index]);
         }
+        else i--;
     }
     return i;
 }
