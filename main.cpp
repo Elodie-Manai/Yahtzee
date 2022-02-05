@@ -24,15 +24,14 @@ int main()
 
     for (unsigned i = 0; i < LAPS && dicesKept < DICE_NUMBER; i++)
     {
-        dicesKept = 0;
         printf("--- Turn %d ---\n", i + 1);
-        throwDices(DICE_NUMBER, dices);
-        showDices(dices, DICE_NUMBER, "The dices you thrown are:");
+        throwDices(DICE_NUMBER - dicesKept, dices);
+        showDices(dices, DICE_NUMBER - dicesKept, "The dices you thrown are:");
         printf("Choose your dices wisely!\n");
         dicesKept += chooseDices(DICE_NUMBER - dicesKept, choices, dices);
         showDices(choices, dicesKept, "The dices you chose are:");
-        memset(dices, 0, DICE_NUMBER);
-        memset(&choices, 0, sizeof(choices));
+        // memset(dices, 0, DICE_NUMBER);
+        // memset(&choices, 0, sizeof(choices));
     }
     return 0;
 }
