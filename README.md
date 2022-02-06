@@ -65,9 +65,8 @@ That's a lot to process.
 Why don't we make a recap ?
 Let's go!
 
-|========================================================================|
-| Name          | What is that?                | points                  | 
-|===============|==============================|=========================|
+| **Name**      | **What is that?**            | **Points**              | 
+|---------------|------------------------------|-------------------------|
 | Brelan        | 3 identical dices            | addition of the 3 dices |
 |---------------|------------------------------|-------------------------|
 | Carré         | 4 identical dices            | addition of the 4 dices |
