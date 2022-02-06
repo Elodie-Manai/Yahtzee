@@ -1,7 +1,8 @@
 #ifndef SCORE_GRID_H
 #define SCORE_GRID_H
 
-struct grid {
+struct grid
+{
     unsigned one;
     unsigned two;
     unsigned three;
@@ -18,12 +19,14 @@ struct grid {
     unsigned chance;
 };
 
-class ScoreGrid {
+class ScoreGrid
+{
 
     public:
         ScoreGrid() {}
-        void getGrid(struct grid *grid) {
-            grid = &this->grid; 
+        void getGrid(struct grid *grid)
+        {
+            grid = &this->grid;
         };
         // void setPoints(unsigned indexGrid, unsigned dices[5]) {
         //     this->grid[indexGrid] = getPoints(indexGrid, dices);
@@ -31,111 +34,172 @@ class ScoreGrid {
 
     private:
         struct grid grid;
-        int getPoints(unsigned indexGrid, unsigned *dices, unsigned sizeOfDices) {
+        int getPoints(unsigned indexGrid, unsigned *dices, unsigned sizeOfDices)
+        {
             unsigned pts = 0;
             bool isValid = false;
             switch (indexGrid)
             {
-                //Top grid :
-                case 1:
+            // Top grid :
+            case 1:
+            {
+                for (unsigned i = 0; i < sizeOfDices; i++)
+                    if (dices[i] == 1)
+                        pts += 1;
+            }
+            break;
+            case 2:
+            {
+                for (unsigned i = 0; i < sizeOfDices; i++)
+                    if (dices[i] == 2)
+                        pts += 2;
+            }
+            break;
+            case 3:
+            {
+                for (unsigned i = 0; i < sizeOfDices; i++)
+                    if (dices[i] == 3)
+                        pts += 3;
+            }
+            break;
+            case 4:
+                for (unsigned i = 0; i < sizeOfDices; i++)
+                    if (dices[i] == 4)
+                        pts += 4;
+                break;
+            case 5:
+            {
+                for (unsigned i = 0; i < sizeOfDices; i++)
+                    if (dices[i] == 5)
+                        pts += 5;
+            }
+            break;
+            case 6:
+            {
+                for (unsigned i = 0; i < sizeOfDices; i++)
+                    if (dices[i] == 6)
+                        pts += 6;
+            }
+            break;
+
+            // Bottom grid :
+            case 7: // Brelan
+            {
+                for (unsigned i = 1; i < 7; i++)
                 {
-                    for(unsigned i = 0; i < sizeOfDices; i++) if(dices[i] == 1) pts += 1;
-                }
-                    break;
-                case 2:
-                {
-                    for(unsigned i = 0; i < sizeOfDices; i++) if(dices[i] == 2) pts += 2;
-                }
-                    break;
-                case 3:
-                {
-                    for(unsigned i = 0; i < sizeOfDices; i++) if(dices[i] == 3) pts += 3;
-                }
-                    break;
-                case 4:
-                    for(unsigned i = 0; i < sizeOfDices; i++) if(dices[i] == 4) pts += 4;
-                    break;
-                case 5:
-                {
-                    for(unsigned i = 0; i < sizeOfDices; i++) if(dices[i] == 5) pts += 5;
-                }
-                    break;
-                case 6:
-                {
-                    for(unsigned i = 0; i < sizeOfDices; i++) if(dices[i] == 6) pts += 6;
-                }
-                    break;
-                
-                // Bottom grid :
-                case 7: // Brelan
-                {
-                    for(unsigned i = 1; i < 7; i++) {
-                        unsigned compt = 0;
-                        for (unsigned j = 0; j < sizeOfDices - 3; j++)
-                        {
-                            if(dices[j] == i) compt++;
-                        }
-                        if(compt >= 3) {
-                            isValid = true;
-                            break;
-                        }
+                    unsigned compt = 0;
+                    for (unsigned j = 0; j < sizeOfDices - 3; j++)
+                    {
+                        if (dices[j] == i)
+                            compt++;
                     }
-                    if(isValid) for(unsigned i = 0; i < sizeOfDices; i++) pts += dices[i];
-                }
-                    
-                    break;
-                case 8: // Carre
-                {
-                    for(unsigned i = 1; i < 7; i++) {
-                        unsigned compt = 0;
-                        for (unsigned j = 0; j < sizeOfDices - 3; j++)
-                        {
-                            if(dices[j] == i) compt++;
-                        }
-                        if(compt >= 4) {
-                            isValid = true;
-                            break;
-                        }
+                    if (compt >= 3)
+                    {
+                        isValid = true;
+                        break;
                     }
-                    if(isValid) for(unsigned i = 0; i < sizeOfDices; i++) pts += dices[i];
                 }
-                    break;
-                case 9: // Petite suite
+                if (isValid)
+                    for (unsigned i = 0; i < sizeOfDices; i++)
+                        pts += dices[i];
+            }
+
+            break;
+            case 8: // Carre
+            {
+                for (unsigned i = 1; i < 7; i++)
                 {
-                    for(unsigned i = 0; i < sizeOfDices; i++) if(dices[i] == 3) pts += 30;
-                }
-                    break;
-                case 10: // Grande Suite
-                {
-                    for(unsigned i = 0; i < sizeOfDices; i++) if(dices[i] == 4) pts += 40;
-                }
-                    break;
-                case 11: // Full
-                {
-                    for(unsigned i = 0; i < sizeOfDices; i++) if(dices[i] == 5) pts += 25;
-                }
-                    break;
-                case 12: // Yahtzee
-                {
-                    unsigned lastDice = dices[0];
-                    isValid = true;
-                    for(unsigned i = 1; i < sizeOfDices; i++) {
-                        if(dices[i] != lastDice) isValid = false;
+                    unsigned compt = 0;
+                    for (unsigned j = 0; j < sizeOfDices - 3; j++)
+                    {
+                        if (dices[j] == i)
+                            compt++;
                     }
-                    if(isValid) pts = 50;
+                    if (compt >= 4)
+                    {
+                        isValid = true;
+                        break;
+                    }
                 }
-                    break;
-                case 13: // Chance
+                if (isValid)
+                    for (unsigned i = 0; i < sizeOfDices; i++)
+                        pts += dices[i];
+            }
+            break;
+            case 9: // Petite suite
+            {
+
+                for (unsigned i = 0; i < 7; i++)
                 {
-                    for(unsigned i = 0; i < sizeOfDices; i++) pts += dices[i];
+                    /* code */
                 }
-                    break;
-                
-                default: pts = 0;
-                    break;
+
+                for (unsigned i = 0; i < sizeOfDices; i++)
+                    if (dices[i] == 3)
+                        pts += 30;
+            }
+            break;
+            case 10: // Grande Suite
+            {
+                this->sortArray(dices, sizeOfDices);
+                for (unsigned i = 0; i < sizeOfDices; i++) {
+                    if (dices[i + 1] && dices[i] == dices[i + 1]) break;
+                }
+                pts += 40;
+            }
+            break;
+            case 11: // Full
+            {
+                for (unsigned i = 0; i < sizeOfDices; i++)
+                    if (dices[i] == 5)
+                        pts += 25;
+            }
+            break;
+            case 12: // Yahtzee
+            {
+                unsigned lastDice = dices[0];
+                isValid = true;
+                for (unsigned i = 1; i < sizeOfDices; i++)
+                {
+                    if (dices[i] != lastDice)
+                        isValid = false;
+                }
+                if (isValid)
+                    pts = 50;
+            }
+            break;
+            case 13: // Chance
+            {
+                for (unsigned i = 0; i < sizeOfDices; i++)
+                    pts += dices[i];
+            }
+            break;
+
+            default:
+                pts = 0;
+                break;
             }
 
             return pts;
+        }
+
+        int sortArray(unsigned *array, int sizeArray)
+        {
+            for (unsigned j = 0; j < sizeArray; j++)
+            {
+                for (unsigned i = 0; i < sizeArray; i++)
+                {
+                    if (array[i + 1] && array[i] > array[i + 1])
+                    {
+                        int temp = array[i + 1];
+                        array[i + 1] = array[i];
+                        array[i] = temp;
+                        i -= 1;
+                    }
+                }
+            }
+
+            return 0;
         }
 };
 
