@@ -25,9 +25,9 @@ class ScoreGrid {
         void getGrid(struct grid *grid) {
             grid = &this->grid; 
         };
-        void setPoints(unsigned indexGrid, unsigned dices[5]) {
-            this->grid.indexGrid = getPoints(indexGrid, dices);
-        }
+        // void setPoints(unsigned indexGrid, unsigned dices[5]) {
+        //     this->grid[indexGrid] = getPoints(indexGrid, dices);
+        // }
 
     private:
         struct grid grid;
@@ -58,6 +58,11 @@ class ScoreGrid {
                 // Bottom grid :
                 case 7: // Brelan
                     for(unsigned i = 0; i < sizeOfDices; i++) if(*dices[i] == 1) pts += 1;
+                    for (unsigned i = 0; i < sizeOfDices; i++)
+                    {
+                        /* code */
+                    }
+                    
                     break;
                 case 8: // Carre
                     for(unsigned i = 0; i < sizeOfDices; i++) if(*dices[i] == 2) pts += 2;
