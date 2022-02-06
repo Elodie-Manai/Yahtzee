@@ -18,10 +18,10 @@
 #define LAPS 3
 #define DICE_NUMBER 5
 
-int throwDices(unsigned, unsigned *);
+int throwDices(unsigned, unsigned *, unsigned *);
 int chooseDices(unsigned, unsigned *, unsigned *);
-int showDices(unsigned *, unsigned, const char *);
-int hasBeenChosen(unsigned, unsigned *, unsigned);
+int showDices(unsigned *, unsigned *, unsigned, bool);
+// int hasBeenChosen(unsigned, unsigned *, unsigned);
 
 int main()
 {
@@ -42,34 +42,37 @@ int main()
     {
         printf("--- Turn %d ---\n", i + 1);
         // Throw the dices
-        throwDices(DICE_NUMBER - dicesKept, dices);
+        throwDices(DICE_NUMBER, dices, choices);
 
         // Show the dices that were thrown
-        showDices(dices, DICE_NUMBER, "The dices you thrown are:");
+        showDices(dices, choices, DICE_NUMBER, false);
         printf("Choose your dices wisely!\n");
 
         // Add the chosen dices in choices
         dicesKept += chooseDices(DICE_NUMBER - dicesKept, choices, dices);
 
         // Show the dices kept
-        showDices(choices, DICE_NUMBER, "The dices you chose are:");
+        showDices(choices, choices, DICE_NUMBER, true);
     }
     return 0;
 }
 
-int throwDices(unsigned diceNumber, unsigned *input)
+int throwDices(unsigned diceNumber, unsigned *dices, unsigned *choices)
 {
-    for (unsigned i = 0; i < diceNumber; i++)
+    unsigned i = 0;
+    for (i; i < diceNumber && choices[i] == 0; i++)
     {
-        input[i] = (unsigned)(rand() % 6) + 1;
+        // printf("---------------------------\n");
+        // printf("choices[i] = %d && i = %d\n", choices[i], i);
+        dices[i] = (unsigned)(rand() % 6) + 1;
     }
     return 0;
 }
 
-int chooseDices(unsigned diceSize, unsigned *input, unsigned *dices)
+int chooseDices(unsigned diceSize, unsigned *choices, unsigned *dices)
 {
     char choice;
-    unsigned index = 0;
+    unsigned indexChosen = 0;
     int i;
 
     for (i = 0; i < diceSize && choice != 'c'; i++)
@@ -77,14 +80,14 @@ int chooseDices(unsigned diceSize, unsigned *input, unsigned *dices)
         printf("Vous pouvez encore garder jusqu'à %d dé(s), c pour quitter :", diceSize - i);
         memset(&choice, 0, sizeof(choice));
         std::scanf(" %c", &choice);
-        index = ((int)choice - '0') - 1;
+        indexChosen = ((int)choice - '0') - 1;
         if (choice == 'c')
             return i;
         
-        if (index >= 0 && index < diceSize)
+        if (indexChosen >= 0 && indexChosen < diceSize)
         {
-            input[index] = dices[index];
-            printf("Vous avez gardé le dé numéro %d de valeur %d\n", index + 1, input[index]);
+            choices[indexChosen] = dices[indexChosen];
+            printf("Vous avez gardé le dé numéro %d de valeur %d\n", indexChosen + 1, choices[indexChosen]);
         }
         else
             i--;
@@ -92,26 +95,36 @@ int chooseDices(unsigned diceSize, unsigned *input, unsigned *dices)
     return i;
 }
 
-int showDices(unsigned *dices, unsigned count, const char *presentationText)
+int showDices(unsigned *dices, unsigned *choices, unsigned diceNumber, bool isChosenDices)
 {
+    const char* presentationText;
+    if (isChosenDices) {
+        presentationText = "The dices you chose are:";
+    } else {
+        presentationText = "The dices you thrown are:";
+    }
+
     printf("----------------------------------\n");
     printf("%s\n", presentationText);
-    for (unsigned i = 0; i < count; i++)
+
+
+    for (unsigned i = 0; i < diceNumber; i++)
     {
-        printf("Dice %d: %d\n", i + 1, dices[i]);
+        if (isChosenDices && choices[i] != 0) printf("Dice %d: %d\n", i + 1, choices[i]);
+        if (!isChosenDices && choices[i] == 0) printf("Dice %d: %d\n", i + 1, dices[i]);
     }
     printf("----------------------------------\n");
 
     return 0;
 }
 
-int hasBeenChosen(unsigned diceNumberIndex, unsigned *input, unsigned choicesLength)
-{
-    printf("diceNumberIndex %d, choicesLength %d\n", diceNumberIndex, choicesLength);
-    for (unsigned i = 0; i < choicesLength; i++)
-    {
-        if (i == input[diceNumberIndex])
-            return 1;
-    }
-    return 0;
-}
+// int hasBeenChosen(unsigned diceNumberIndex, unsigned *input, unsigned choicesLength)
+// {
+//     printf("diceNumberIndex %d, choicesLength %d\n", diceNumberIndex, choicesLength);
+//     for (unsigned i = 0; i < choicesLength; i++)
+//     {
+//         if (i == input[diceNumberIndex])
+//             return 1;
+//     }
+//     return 0;
+// }
