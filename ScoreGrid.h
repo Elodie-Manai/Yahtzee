@@ -31,59 +31,107 @@ class ScoreGrid {
 
     private:
         struct grid grid;
-        int getPoints(unsigned indexGrid, unsigned *dices[5], unsigned sizeOfDices) {
+        int getPoints(unsigned indexGrid, unsigned *dices, unsigned sizeOfDices) {
             unsigned pts = 0;
+            bool isValid = false;
             switch (indexGrid)
             {
                 //Top grid :
                 case 1:
-                    for(unsigned i = 0; i < sizeOfDices; i++) if(*dices[i] == 1) pts += 1;
+                {
+                    for(unsigned i = 0; i < sizeOfDices; i++) if(dices[i] == 1) pts += 1;
+                }
                     break;
                 case 2:
-                    for(unsigned i = 0; i < sizeOfDices; i++) if(*dices[i] == 2) pts += 2;
+                {
+                    for(unsigned i = 0; i < sizeOfDices; i++) if(dices[i] == 2) pts += 2;
+                }
                     break;
                 case 3:
-                    for(unsigned i = 0; i < sizeOfDices; i++) if(*dices[i] == 3) pts += 3;
+                {
+                    for(unsigned i = 0; i < sizeOfDices; i++) if(dices[i] == 3) pts += 3;
+                }
                     break;
                 case 4:
-                    for(unsigned i = 0; i < sizeOfDices; i++) if(*dices[i] == 4) pts += 4;
+                    for(unsigned i = 0; i < sizeOfDices; i++) if(dices[i] == 4) pts += 4;
                     break;
                 case 5:
-                    for(unsigned i = 0; i < sizeOfDices; i++) if(*dices[i] == 5) pts += 5;
+                {
+                    for(unsigned i = 0; i < sizeOfDices; i++) if(dices[i] == 5) pts += 5;
+                }
                     break;
                 case 6:
-                    for(unsigned i = 0; i < sizeOfDices; i++) if(*dices[i] == 6) pts += 6;
+                {
+                    for(unsigned i = 0; i < sizeOfDices; i++) if(dices[i] == 6) pts += 6;
+                }
                     break;
                 
                 // Bottom grid :
                 case 7: // Brelan
-                    for(unsigned i = 0; i < sizeOfDices; i++) if(*dices[i] == 1) pts += 1;
-                    for (unsigned i = 0; i < sizeOfDices; i++)
-                    {
-                        /* code */
+                {
+                    for(unsigned i = 1; i < 7; i++) {
+                        unsigned compt = 0;
+                        for (unsigned j = 0; j < sizeOfDices - 3; j++)
+                        {
+                            if(dices[j] == i) compt++;
+                        }
+                        if(compt >= 3) {
+                            isValid = true;
+                            break;
+                        }
                     }
+                    if(isValid) for(unsigned i = 0; i < sizeOfDices; i++) pts += dices[i];
+                }
                     
                     break;
                 case 8: // Carre
-                    for(unsigned i = 0; i < sizeOfDices; i++) if(*dices[i] == 2) pts += 2;
+                {
+                    for(unsigned i = 1; i < 7; i++) {
+                        unsigned compt = 0;
+                        for (unsigned j = 0; j < sizeOfDices - 3; j++)
+                        {
+                            if(dices[j] == i) compt++;
+                        }
+                        if(compt >= 4) {
+                            isValid = true;
+                            break;
+                        }
+                    }
+                    if(isValid) for(unsigned i = 0; i < sizeOfDices; i++) pts += dices[i];
+                }
                     break;
                 case 9: // Petite suite
-                    for(unsigned i = 0; i < sizeOfDices; i++) if(*dices[i] == 3) pts += 3;
+                {
+                    for(unsigned i = 0; i < sizeOfDices; i++) if(dices[i] == 3) pts += 30;
+                }
                     break;
                 case 10: // Grande Suite
-                    for(unsigned i = 0; i < sizeOfDices; i++) if(*dices[i] == 4) pts += 4;
+                {
+                    for(unsigned i = 0; i < sizeOfDices; i++) if(dices[i] == 4) pts += 40;
+                }
                     break;
                 case 11: // Full
-                    for(unsigned i = 0; i < sizeOfDices; i++) if(*dices[i] == 5) pts += 5;
+                {
+                    for(unsigned i = 0; i < sizeOfDices; i++) if(dices[i] == 5) pts += 25;
+                }
                     break;
                 case 12: // Yahtzee
-                    for(unsigned i = 0; i < sizeOfDices; i++) if(*dices[i] == 6) pts += 6;
+                {
+                    unsigned lastDice = dices[0];
+                    isValid = true;
+                    for(unsigned i = 1; i < sizeOfDices; i++) {
+                        if(dices[i] != lastDice) isValid = false;
+                    }
+                    if(isValid) pts = 50;
+                }
                     break;
                 case 13: // Chance
-                    for(unsigned i = 0; i < sizeOfDices; i++) pts += *dices[i];
+                {
+                    for(unsigned i = 0; i < sizeOfDices; i++) pts += dices[i];
+                }
                     break;
                 
-                default:
+                default: pts = 0;
                     break;
             }
 
