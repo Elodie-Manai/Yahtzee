@@ -144,7 +144,7 @@ private:
             this->sortArray(dices, sizeOfDices);
             for (unsigned i = 0; i < sizeOfDices; i++)
             {
-                if (dices[i + 1] && dices[i] == dices[i + 1])
+                if (dices[i + 1] && dices[i] == dices[i + 1] || dices[i] + 1 != dices[i+1])
                     break;
             }
             pts += 40;
