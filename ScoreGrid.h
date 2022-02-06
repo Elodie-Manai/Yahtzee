@@ -118,7 +118,6 @@ class ScoreGrid {
                 case 12: // Yahtzee
                 {
                     unsigned lastDice = dices[0];
-                    isValid = true;
                     for(unsigned i = 1; i < sizeOfDices; i++) {
                         if(dices[i] != lastDice) isValid = false;
                     }
@@ -131,7 +130,7 @@ class ScoreGrid {
                 }
                     break;
                 
-                default: pts = 0;
+                default:
                     break;
             }
 

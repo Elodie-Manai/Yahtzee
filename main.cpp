@@ -36,7 +36,14 @@ int main()
 
     std::srand(time(0));
 
-    printf("Welcome to YAHZEE %s !\n", test.getName());
+    char nbPlayers;
+    printf("Welcome to YAHZEE !\n");
+    
+    // printf("Number of gamers ?");
+    // scanf(" %c", &nbPlayers);
+    // printf("Ok, give me a name for each %c players !\n", nbPlayers);
+    // std::fflush(stdin); //Bug..
+
     printf("----------------------------------\n");
 
     makeTurn(test);
@@ -50,11 +57,13 @@ int makeTurn(Player player)
 
     memset(dices, 0, DICE_NUMBER);
     memset(&choices, 0, sizeof(choices));
+    printf("--- It's your turn %s ---\n", player.getName());
 
     // will run for at least 1 turn and at most 3 turns
     for (unsigned i = 0; i < LAPS && dicesKept < DICE_NUMBER; i++)
     {
         printf("--- Turn %d ---\n", i + 1);
+        memset(dices, 0, DICE_NUMBER);
         // Throw the dices
         throwDices(DICE_NUMBER, dices, choices);
 
@@ -73,12 +82,12 @@ int makeTurn(Player player)
 
 int throwDices(unsigned diceNumber, unsigned *dices, unsigned *choices)
 {
-    unsigned i = 0;
-    for (i; i < diceNumber && choices[i] == 0; i++)
+    
+    for (unsigned i = 0; i < diceNumber; i++)
     {
         // printf("---------------------------\n");
         // printf("choices[i] = %d && i = %d\n", choices[i], i);
-        dices[i] = (unsigned)(rand() % 6) + 1;
+        if(choices[i] == 0) dices[i] = (unsigned)(rand() % 6) + 1;
     }
     return 0;
 }
