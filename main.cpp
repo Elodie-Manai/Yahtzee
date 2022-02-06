@@ -15,21 +15,35 @@
 #include <time.h>
 #include <cstdio>
 #include <cstring>
+#include "Player.h"
+
 #define LAPS 3
 #define DICE_NUMBER 5
+#define MAX_PLAYER 10
 
 int throwDices(unsigned, unsigned *, unsigned *);
 int chooseDices(unsigned, unsigned *, unsigned *);
 int showDices(unsigned *, unsigned *, unsigned, bool);
+int makeTurn(Player);
 // int hasBeenChosen(unsigned, unsigned *, unsigned);
+
+Player *players[MAX_PLAYER];
 
 int main()
 {
+    char *name = (char *) "Dnis\0";
+    Player test = Player(name, 0);
+
     std::srand(time(0));
 
-    printf("Welcome to YAHZEE!!!\n");
+    printf("Welcome to YAHZEE %s !\n", test.getName());
     printf("----------------------------------\n");
 
+    makeTurn(test);
+}
+
+int makeTurn(Player player)
+{
     unsigned dices[DICE_NUMBER];
     unsigned choices[DICE_NUMBER];
     unsigned dicesKept = 0;
@@ -81,16 +95,15 @@ int chooseDices(unsigned diceSize, unsigned *choices, unsigned *dices)
         memset(&choice, 0, sizeof(choice));
         std::scanf(" %c", &choice);
         indexChosen = ((int)choice - '0') - 1;
-        if (choice == 'c')
-            return i;
         
-        if (indexChosen >= 0 && indexChosen < diceSize)
+        if (choice == 'c') return i;
+        
+        if (indexChosen >= 0 && indexChosen < DICE_NUMBER && choices[indexChosen] == 0)
         {
             choices[indexChosen] = dices[indexChosen];
             printf("Vous avez gardé le dé numéro %d de valeur %d\n", indexChosen + 1, choices[indexChosen]);
         }
-        else
-            i--;
+        else i--;
     }
     return i;
 }
