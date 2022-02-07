@@ -193,7 +193,7 @@ private:
         return pts;
     }
 
-    int sortArray(unsigned *array, int sizeArray)
+    int sortArray(unsigned *array, int sizeArray) // Very pretty ! :D
     {
         for (unsigned j = 0; j < sizeArray; j++)
         {
