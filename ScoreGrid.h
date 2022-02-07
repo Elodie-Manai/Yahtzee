@@ -128,15 +128,23 @@ private:
         break;
         case 9: // Petite suite
         {
-
-            for (unsigned i = 0; i < 7; i++)
+            unsigned cmpt = 0;
+            for (unsigned i = 1; i < 7 && cmpt < 3; i++) // Valeur du dés
             {
-                /* code */
+                isValid = false;
+                for(unsigned j = 0; j < sizeOfDices; j++) {
+                    if(dices[j] == i) {
+                        isValid = true;
+                        cmpt++;
+                    }
+                }
+                if(!isValid && i > 1) break;
+                else if (isValid && cmpt > 3) {
+                    pts = 30;
+                    break;
+                }
             }
 
-            for (unsigned i = 0; i < sizeOfDices; i++)
-                if (dices[i] == 3)
-                    pts += 30;
         }
         break;
         case 10: // Grande Suite
@@ -152,9 +160,9 @@ private:
         break;
         case 11: // Full
         {
-            for (unsigned i = 0; i < sizeOfDices; i++)
-                if (dices[i] == 5)
-                    pts += 25;
+            this->sortArray(dices, sizeOfDices);
+            if((dices[i] == dices[i + 1] && dices[i + 1] == dices[i + 2]) && (dices[i + 3] == dices[i + 4]) || 
+                (dices[i + 2] == dices[i + 3] && dices[i + 4] == dices[i + 2]) && (dices[i] == dices[i + 1])) pts = 25;
         }
         break;
         case 12: // Yahtzee
@@ -162,8 +170,10 @@ private:
             unsigned lastDice = dices[0];
             for (unsigned i = 1; i < sizeOfDices; i++)
             {
-                if (dices[i] != lastDice)
+                if (dices[i] != lastDice){
+                    break;
                     isValid = false;
+                }
             }
             if (isValid)
                 pts = 50;
