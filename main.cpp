@@ -24,7 +24,7 @@
 int throwDices(unsigned, unsigned *, unsigned *);
 int chooseDices(unsigned, unsigned *, unsigned *);
 int showDices(unsigned *, unsigned *, unsigned, bool);
-int makeTurn(Player);
+int makeTurn(Player *);
 // int hasBeenChosen(unsigned, unsigned *, unsigned);
 
 Player *players[MAX_PLAYER];
@@ -32,7 +32,7 @@ Player *players[MAX_PLAYER];
 int main()
 {
     char *name = (char *) "Dnis\0";
-    Player test = Player(name, 0);
+    Player test = Player(name);
 
     std::srand(time(0));
 
@@ -46,10 +46,10 @@ int main()
 
     printf("----------------------------------\n");
 
-    makeTurn(test);
+    makeTurn(&test);
 }
 
-int makeTurn(Player player)
+int makeTurn(Player *player)
 {
     unsigned dices[DICE_NUMBER];
     unsigned choices[DICE_NUMBER];
@@ -57,7 +57,7 @@ int makeTurn(Player player)
 
     memset(dices, 0, DICE_NUMBER);
     memset(&choices, 0, sizeof(choices));
-    printf("--- It's your turn %s ---\n", player.getName());
+    printf("--- It's your turn %s ---\n", player->getName());
 
     // will run for at least 1 turn and at most 3 turns
     for (unsigned i = 0; i < LAPS && dicesKept < DICE_NUMBER; i++)
