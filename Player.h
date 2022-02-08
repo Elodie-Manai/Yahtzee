@@ -6,7 +6,7 @@
 class Player {
 
     public:
-        Player(char *name, unsigned score) { this->name = name; this->score = score; }
+        Player(char *name) { this->name = name; this->score = 0; }
         char *getName() { return this->name; }
         unsigned getScore() { return this->score; }
         void setScore(unsigned score) { this->score = score; }
@@ -15,8 +15,8 @@ class Player {
     private:
         char *name;
         unsigned score;
+        grid grille;
         ScoreGrid scoreGrid;
-    
 };
 
 #endif
