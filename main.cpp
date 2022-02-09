@@ -36,9 +36,8 @@ int main()
 
     std::srand(time(0));
 
-    char nbPlayers;
+    char nbPlayers[2];
     printf("Welcome to YAHZEE !\n");
-    
     // printf("Number of gamers ?");
     // scanf(" %c", &nbPlayers);
     // printf("Ok, give me a name for each %c players !\n", nbPlayers);
@@ -47,6 +46,11 @@ int main()
     printf("----------------------------------\n");
 
     makeTurn(&test);
+}
+
+int stockScore(Player *player, unsigned dices[5]) {
+    player->setScore(0, dices);
+    return 0;
 }
 
 int makeTurn(Player *player)
@@ -77,6 +81,10 @@ int makeTurn(Player *player)
         // Show the dices kept
         showDices(choices, choices, DICE_NUMBER, true);
     }
+    
+    player->setScore(0, choices);
+    player->showScore();
+    
     return 0;
 }
 

@@ -29,7 +29,7 @@ class ScoreGrid
             grille = &this->grille;
         };
         void setPoints(unsigned indexGrid, unsigned dices[5]) {
-            this->setGrid(&this->grille, indexGrid, getPoints(indexGrid, dices, 5));
+            this->setGrid(&this->grille, indexGrid, getPoints(indexGrid + 1, dices, 5));
         };
 
     private:
@@ -72,6 +72,10 @@ class ScoreGrid
         {
             unsigned pts = 0;
             bool isValid = false;
+            // printf("call me baby ! %d", indexGrid);
+            
+            for(unsigned i = 0; i < sizeOfDices; i++) printf("dice %d : %d\n", i, dices[i]);
+
             switch (indexGrid)
             {
             // Top grid :
@@ -223,7 +227,7 @@ class ScoreGrid
                 pts = 0;
                 break;
             }
-
+            printf("points : %d\n", pts);
             return pts;
         }
 

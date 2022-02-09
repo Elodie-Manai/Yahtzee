@@ -6,16 +6,19 @@
 class Player {
 
     public:
-        Player(char *name) { this->name = name; this->score = 0; }
+        Player(char *name) { this->name = name; }
         char *getName() { return this->name; }
-        unsigned getScore() { return this->score; }
-        void setScore(unsigned score) { this->score = score; }
+        void setScore(unsigned choice, unsigned *dices) { this->scoreGrid.setPoints(choice, dices); }
+        void showScore() {  
+                grid grille;
+                this->scoreGrid.getGrid(&grille);
+
+                printf("Points pour les un : %d", grille.one);
+        }
         void setName(char *name) { this->name = name; }
 
     private:
         char *name;
-        unsigned score;
-        grid grille;
         ScoreGrid scoreGrid;
 };
 
