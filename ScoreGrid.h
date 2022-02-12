@@ -10,13 +10,13 @@ struct grid
     unsigned five;
     unsigned six;
 
-    // unsigned brelan;
-    // unsigned carre;
+    unsigned brelan;
+    unsigned carre;
     unsigned brelanCarreOrYahtzee;
     unsigned petiteSuite;
     unsigned grandeSuite;
     unsigned full;
-    // unsigned yahtzee;
+    unsigned yahtzee;
     unsigned chance;
 };
 
@@ -49,21 +49,19 @@ class ScoreGrid
                     g->five = pts; break;
                 case 6:
                     g->six = pts; break;
-                case 7: 
-                    g->brelanCarreOrYahtzee = pts; break;
-                // case 7:
-                //     g->brelan = pts; break;
-                // case 8:
-                //     g->carre = pts; break;
+                case 7:
+                    g->brelan = pts; break;
                 case 8:
-                    g->petiteSuite = pts; break;
+                    g->carre = pts; break;
                 case 9:
-                    g->grandeSuite = pts; break;
+                    g->petiteSuite = pts; break;
                 case 10:
-                    g->full = pts; break;
-                // case 12:
-                //     g->yahtzee = pts; break;
+                    g->grandeSuite = pts; break;
                 case 11:
+                    g->full = pts; break;
+                case 12:
+                    g->yahtzee = pts; break;
+                case 13:
                     g->chance = pts; break;
                 default:
                     break;
@@ -123,17 +121,17 @@ class ScoreGrid
             break;
 
             // Bottom grid :
-            case 7: // Brelan, Carre or Yahtzee
+            case 7: // Brelan
             {
-                this->checkForIdenticals(dices, 5);
+                if(this->checkForIdenticals(dices, 5, 3)) for (unsigned i = 0; i < 5; i++) pts += dices[i];
             }
             break;
-            // case 8: // Carre
-            // {
-            //     this->checkForIdenticals(dices, 5);
-            // }
-            // break;
-            case 8: // Petite suite
+            case 8: // Carre
+            {
+                if(this->checkForIdenticals(dices, 5, 4)) for (unsigned i = 0; i < 5; i++) pts += dices[i];
+            }
+            break;
+            case 9: // Petite suite
             {
                 unsigned cmpt = 0;
                 for (unsigned i = 1; i < 7 && cmpt < 3; i++) // Valeur du dés
@@ -154,7 +152,7 @@ class ScoreGrid
 
             }
             break;
-            case 9: // Grande Suite
+            case 10: // Grande Suite
             {
                 this->sortArray(dices, sizeOfDices);
                 for (unsigned i = 0; i < sizeOfDices; i++)
@@ -165,28 +163,19 @@ class ScoreGrid
                 pts += 40;
             }
             break;
-            case 10: // Full
+            case 11: // Full
             {
                 this->sortArray(dices, sizeOfDices);
                 if((dices[0] == dices[1] && dices[1] == dices[2]) && (dices[3] == dices[4]) || 
                     (dices[2] == dices[3] && dices[3] == dices[4]) && (dices[0] == dices[1])) pts = 25;
             }
             break;
-            // case 12: // Yahtzee
-            // {
-            //     unsigned lastDice = dices[0];
-            //     for (unsigned i = 1; i < sizeOfDices; i++)
-            //     {
-            //         if (dices[i] != lastDice){
-            //             break;
-            //             isValid = false;
-            //         }
-            //     }
-            //     if (isValid)
-            //         pts = 50;
-            // }
-            // break;
-            case 11: // Chance
+            case 12: // Yahtzee
+            {
+                if(this->checkForIdenticals(dices, 5, 5)) pts = 50;
+            }
+            break;
+            case 13: // Chance
             {
                 for (unsigned i = 0; i < sizeOfDices; i++) pts += dices[i];
             }
@@ -220,30 +209,17 @@ class ScoreGrid
             return 0;
         }
 
-        int checkForIdenticals(unsigned *array, int sizeArray)
+        int checkForIdenticals(unsigned *array, int sizeArray, int numberOfIdenticalRequired)
         {
-            // check if there are identical dices
-            // if 3 identical && the 2 others are not then it is a brelan returns 3 * dice value
-            // if 4 are identical then it's a carre returns 4 * dice value
-            // if 5 are identical then it's a yahtzee returns 50 pts
-            
+            if(sizeArray > sizeof(array)) return -1;
             for (unsigned i = 0; i < sizeArray; i++)
             {
                 unsigned countOfIdentical = 0;
-                unsigned diceValue = array[i];
+                unsigned pts = 0;
 
-                for (unsigned j = 0; j < sizeArray; j++) if (diceValue == array[j]) countOfIdentical += 1;
-
-                if (countOfIdentical >= 3) switch (countOfIdentical)
-                    {
-                    case 3:
-                    case 4:
-                        return countOfIdentical * diceValue;
-                        break;
-                    case 5:
-                        return 50;
-                        break;
-                    }
+                for (unsigned j = 0; j < sizeArray; j++) if (array[i] == array[j])countOfIdentical += 1;
+                
+                if (countOfIdentical >= numberOfIdenticalRequired) return 1;
             }
             return 0;
         }
