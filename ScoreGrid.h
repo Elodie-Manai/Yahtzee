@@ -1,71 +1,45 @@
 #ifndef SCORE_GRID_H
 #define SCORE_GRID_H
 
-struct grid
-{
-    unsigned one;
-    unsigned two;
-    unsigned three;
-    unsigned four;
-    unsigned five;
-    unsigned six;
+// struct grid
+// {
+//     unsigned one;
+//     unsigned two;
+//     unsigned three;
+//     unsigned four;
+//     unsigned five;
+//     unsigned six;
 
-    unsigned brelan;
-    unsigned carre;
-    unsigned brelanCarreOrYahtzee;
-    unsigned petiteSuite;
-    unsigned grandeSuite;
-    unsigned full;
-    unsigned yahtzee;
-    unsigned chance;
-};
+//     unsigned brelan;
+//     unsigned carre;
+//     unsigned petiteSuite;
+//     unsigned grandeSuite;
+//     unsigned full;
+//     unsigned yahtzee;
+//     unsigned chance;
+// };
 
 class ScoreGrid
 {
 
     public:
         ScoreGrid() {}
-        void getGrid(grid *grille)
+        void getGrid(int *grille, char **combinations)
         {
-            grille = &this->grille;
+            grille = this->gridArray;
+            combinations = this->combinationsNames;
         };
         void setPoints(unsigned indexGrid, unsigned dices[5]) {
-            this->setGrid(&this->grille, indexGrid, getPoints(indexGrid + 1, dices, 5));
+            this->setGrid(this->gridArray, indexGrid, getPoints(indexGrid + 1, dices, 5));
         };
 
     private:
-        struct grid grille;
-        int setGrid(grid *g, unsigned index, unsigned pts) {
-            switch(index) {
-                case 0:
-                    g->one = pts; break;
-                case 1:
-                    g->two = pts; break;
-                case 3:
-                    g->three = pts; break;
-                case 4:
-                    g->four = pts; break;
-                case 5:
-                    g->five = pts; break;
-                case 6:
-                    g->six = pts; break;
-                case 7:
-                    g->brelan = pts; break;
-                case 8:
-                    g->carre = pts; break;
-                case 9:
-                    g->petiteSuite = pts; break;
-                case 10:
-                    g->grandeSuite = pts; break;
-                case 11:
-                    g->full = pts; break;
-                case 12:
-                    g->yahtzee = pts; break;
-                case 13:
-                    g->chance = pts; break;
-                default:
-                    break;
-            }
+        int gridArray[13];
+        char *combinationsNames[13] = {"one", "two", "three", "four", "five", "six", "Brelan", "Carre", "Petite suite", "Grande suite", "Full", "Yahtzee", "Chance"}; 
+        
+        int setGrid(int *gridArray, int index, unsigned pts) {
+            if (index - 1 < 0 || index - 1 > sizeof(gridArray)) return -1;
+            gridArray[index - 1] = pts;
             return 0;
         }
         unsigned getPoints(unsigned indexGrid, unsigned *dices, unsigned sizeOfDices)
@@ -153,10 +127,9 @@ class ScoreGrid
                 break;
 
                 default:
-                    pts = 0;
+                    pts = -1;
                     break;
             }
-            printf("points : %d\n", pts);
             return pts;
         }
 
@@ -176,7 +149,6 @@ class ScoreGrid
                     }
                 }
             }
-
             return 0;
         }
 
