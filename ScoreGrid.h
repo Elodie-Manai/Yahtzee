@@ -52,7 +52,6 @@ class ScoreGrid
 
             switch (indexGrid)
             {
-                int valueOfDice = 0;
                 // Top grid :
                 case 1:
                 case 2:
@@ -60,9 +59,7 @@ class ScoreGrid
                 case 4:
                 case 5:
                 case 6:
-                {
                     for (unsigned i = 0; i < sizeOfDices; i++) if (dices[i] == indexGrid) pts += indexGrid;
-                }
                 break;
 
                 // Bottom grid :

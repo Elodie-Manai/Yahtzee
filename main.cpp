@@ -25,13 +25,16 @@ int throwDices(unsigned, unsigned *, unsigned *);
 int chooseDices(unsigned, unsigned *, unsigned *);
 int showDices(unsigned *, unsigned *, unsigned, bool);
 int makeTurn(Player *);
+int getUserChoice(char *, char);
+int getUserPseudo(char *, char *);
 // int hasBeenChosen(unsigned, unsigned *, unsigned);
 
 Player *players[MAX_PLAYER];
 
 int main()
 {
-    char *name = (char *) "Dnis\0";
+    char name[40 + 1];
+    getUserPseudo("Votre petit nom ?", name);
     Player test = Player(name);
 
     std::srand(time(0));
@@ -83,7 +86,7 @@ int makeTurn(Player *player)
     }
     
     player->setScore(0, choices);
-    player->showScore();
+    // player->showScore();
     
     return 0;
 }
@@ -102,19 +105,18 @@ int throwDices(unsigned diceNumber, unsigned *dices, unsigned *choices)
 
 int chooseDices(unsigned diceSize, unsigned *choices, unsigned *dices)
 {
-    char choice;
     unsigned indexChosen = 0;
     int i;
 
-    for (i = 0; i < diceSize && choice != 'c'; i++)
+    for (i = 0; i < diceSize; i++)
     {
-        printf("Vous pouvez encore garder jusqu'à %d dé(s), c pour quitter :", diceSize - i);
-        memset(&choice, 0, sizeof(choice));
-        std::scanf(" %c", &choice);
-        indexChosen = ((int)choice - '0') - 1;
+        char dicesLeft[63 + 1];
+        sprintf(dicesLeft, "Vous pouvez encore garder jusqu'à %d dé(s), c pour quitter :", diceSize - i);
+
+        indexChosen = getUserChoice(dicesLeft, 'c');
         
-        if (choice == 'c') return i;
-        
+        if(indexChosen == -1) return i;
+
         if (indexChosen >= 0 && indexChosen < DICE_NUMBER && choices[indexChosen] == 0)
         {
             choices[indexChosen] = dices[indexChosen];
@@ -145,6 +147,29 @@ int showDices(unsigned *dices, unsigned *choices, unsigned diceNumber, bool isCh
     }
     printf("----------------------------------\n");
 
+    return 0;
+}
+
+int getUserChoice(char *ask, char escape) {
+    char choice;
+    memset(&choice, 0, sizeof(choice));
+
+    printf("%s", ask);
+    std::scanf(" %c", &choice);
+
+    if(choice == escape) return -1;
+
+    return ((int)choice - '0') - 1;
+}
+
+int getUserPseudo(char *ask, char *output) {
+    char buff[sizeof(output)];
+    memset(&buff, 0, sizeof(buff));
+
+    printf("%s", ask);
+    std::scanf(" %s", &buff);
+
+    sprintf(output, "%s", buff);
     return 0;
 }
 
