@@ -14,48 +14,6 @@ class Gameplay {
         int gridLength = 13;
         unsigned dices[5];
 
-        int stockScore(Player *player) {
-            player->showScore(this->gridLength);
-            unsigned indexChosen = this->getUserChoice("Quelle est la combinaison choisie ?", 'c') + 1;
-            
-            player->setScore(0, this->dices);
-            return 0;
-        }
-
-        int makeTurn(Player *player)
-        {
-            unsigned choices[this->diceNumber];
-            unsigned dicesKept = 0;
-
-            memset(this->dices, 0, this->diceNumber);
-            memset(&choices, 0, sizeof(choices));
-            printf("--- It's your turn %s ---\n", player->getName());
-
-            // will run for at least 1 turn and at most 3 turns
-            for (unsigned i = 0; i < this->laps && dicesKept < this->diceNumber; i++)
-            {
-                printf("--- Turn %d ---\n", i + 1);
-                memset(this->dices, 0, this->diceNumber);
-                // Throw the dices
-                this->throwDices(this->diceNumber, this->dices, choices);
-
-                // Show the dices that were thrown
-                this->showDices(this->dices, choices, this->diceNumber, false);
-                printf("Choose your dices wisely!\n");
-
-                // Add the chosen dices in choices
-                dicesKept += this->chooseDices(this->diceNumber - dicesKept, choices, this->dices);
-
-                // Show the dices kept
-                this->showDices(choices, choices, this->diceNumber, true);
-            }
-            
-            // player->setScore(0, choices);
-            // player->showScore();
-            
-            return 0;
-        }
-
         int throwDices(unsigned diceNumber, unsigned *dices, unsigned *choices)
         {
             
@@ -138,11 +96,6 @@ class Gameplay {
             return 0;
         }
             
-
-    private:
-
-        
-        
 };
 
 #endif
