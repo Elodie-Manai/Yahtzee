@@ -7,24 +7,25 @@ class Player {
 
     public:
         Player(char *name) { this->name = name; }
+
         char *getName() { return this->name; }
+
         void setScore(unsigned choice, unsigned *dices) { this->scoreGrid.setPoints(choice, dices); }
-        void showScore(char *output, unsigned gridLength) {  
-            char buffer[(5*gridLength)+1];
+
+        void showScore(unsigned gridLength) {  
             int gridArray[13];
             char **combinationsNames;
             this->scoreGrid.getGrid(gridArray, combinationsNames);
 
             for (unsigned i = 0; i < gridLength; i++)
             {
-                char buff[10+1];
-                sprintf(buff, "%s : %d\n", combinationsNames[i], gridArray[i]);
-                strcat(buffer, buff);
+                printf("%s : %d\n", combinationsNames[i], gridArray[i]);
             }
             
             
         }
         void setName(char *name) { this->name = name; }
+        
 
     private:
         char *name;

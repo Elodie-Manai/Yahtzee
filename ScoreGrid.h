@@ -1,23 +1,7 @@
 #ifndef SCORE_GRID_H
 #define SCORE_GRID_H
 
-// struct grid
-// {
-//     unsigned one;
-//     unsigned two;
-//     unsigned three;
-//     unsigned four;
-//     unsigned five;
-//     unsigned six;
-
-//     unsigned brelan;
-//     unsigned carre;
-//     unsigned petiteSuite;
-//     unsigned grandeSuite;
-//     unsigned full;
-//     unsigned yahtzee;
-//     unsigned chance;
-// };
+#include "Gameplay.h"
 
 class ScoreGrid
 {
@@ -32,10 +16,27 @@ class ScoreGrid
         void setPoints(unsigned indexGrid, unsigned dices[5]) {
             this->setGrid(this->gridArray, indexGrid, getPoints(indexGrid + 1, dices, 5));
         };
+        int calculateScore() {
+            unsigned i = 0;
+            unsigned score = 0;
+
+            for (; i < 6; i++) score += this->gridArray[i];
+            
+            if (score > 62) score += 35;
+
+            for (; i < 13; i++) score += this->gridArray[i];
+
+            return score;
+        };
 
     private:
+        Gameplay gameplay;
+        // const int diceNumber = gameplay.diceNumber; 
         int gridArray[13];
-        char *combinationsNames[13] = {"one", "two", "three", "four", "five", "six", "Brelan", "Carre", "Petite suite", "Grande suite", "Full", "Yahtzee", "Chance"}; 
+        char *combinationsNames[13] = {(char *)"one", (char *)"two", (char *)"three", (char *)"four",
+                                        (char *)"five", (char *)"six", (char *)"Brelan", (char *)"Carre", 
+                                        (char *)"Petite suite", (char *)"Grande suite", (char *)"Full", 
+                                        (char *)"Yahtzee", (char *)"Chance"}; 
         
         int setGrid(int *gridArray, int index, unsigned pts) {
             if (index - 1 < 0 || index - 1 > sizeof(gridArray)) return -1;
@@ -65,12 +66,12 @@ class ScoreGrid
                 // Bottom grid :
                 case 7: // Brelan
                 {
-                    if(this->checkForIdenticals(dices, 5, 3)) for (unsigned i = 0; i < 5; i++) pts += dices[i];
+                    if(this->checkForIdenticals(dices, gameplay.diceNumber, 3)) for (unsigned i = 0; i < gameplay.diceNumber; i++) pts += dices[i];
                 }
                 break;
                 case 8: // Carre
                 {
-                    if(this->checkForIdenticals(dices, 5, 4)) for (unsigned i = 0; i < 5; i++) pts += dices[i];
+                    if(this->checkForIdenticals(dices, gameplay.diceNumber, 4)) for (unsigned i = 0; i < gameplay.diceNumber; i++) pts += dices[i];
                 }
                 break;
                 case 9: // Petite suite
@@ -114,7 +115,7 @@ class ScoreGrid
                 break;
                 case 12: // Yahtzee
                 {
-                    if(this->checkForIdenticals(dices, 5, 5)) pts = 50;
+                    if(this->checkForIdenticals(dices, gameplay.diceNumber, 5)) pts = 50;
                 }
                 break;
                 case 13: // Chance
