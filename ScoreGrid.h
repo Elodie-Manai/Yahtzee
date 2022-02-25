@@ -31,7 +31,7 @@ class ScoreGrid
 
     private:
         Gameplay gameplay;
-        // const int diceNumber = gameplay.diceNumber; 
+        // const int DICE_NUMBER = gameplay.DICE_NUMBER; 
         int gridArray[13];
         char *combinationsNames[13] = {(char *)"one", (char *)"two", (char *)"three", (char *)"four",
                                         (char *)"five", (char *)"six", (char *)"Brelan", (char *)"Carre", 
@@ -66,12 +66,12 @@ class ScoreGrid
                 // Bottom grid :
                 case 7: // Brelan
                 {
-                    if(this->checkForIdenticals(dices, gameplay.diceNumber, 3)) for (unsigned i = 0; i < gameplay.diceNumber; i++) pts += dices[i];
+                    if(this->checkForIdenticals(dices, gameplay.DICE_NUMBER, 3)) for (unsigned i = 0; i < gameplay.DICE_NUMBER; i++) pts += dices[i];
                 }
                 break;
                 case 8: // Carre
                 {
-                    if(this->checkForIdenticals(dices, gameplay.diceNumber, 4)) for (unsigned i = 0; i < gameplay.diceNumber; i++) pts += dices[i];
+                    if(this->checkForIdenticals(dices, gameplay.DICE_NUMBER, 4)) for (unsigned i = 0; i < gameplay.DICE_NUMBER; i++) pts += dices[i];
                 }
                 break;
                 case 9: // Petite suite
@@ -115,7 +115,7 @@ class ScoreGrid
                 break;
                 case 12: // Yahtzee
                 {
-                    if(this->checkForIdenticals(dices, gameplay.diceNumber, 5)) pts = 50;
+                    if(this->checkForIdenticals(dices, gameplay.DICE_NUMBER, 5)) pts = 50;
                 }
                 break;
                 case 13: // Chance

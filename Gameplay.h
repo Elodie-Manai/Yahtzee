@@ -8,10 +8,11 @@ class Gameplay {
 
     public:
         Gameplay() {}
-        int laps = 3;
-        int diceNumber = 5;
-        int maxPlayer = 10;
-        int gridLength = 13;
+        const unsigned LAPS = 3;
+        const unsigned DICE_NUMBER = 5;
+        const unsigned MAX_PLAYER = 10;
+        const unsigned GRID_LENGTH = 13;
+        const unsigned TURNS = 13;
         unsigned dices[5];
 
         int throwDices(unsigned diceNumber, unsigned *dices, unsigned *choices)
@@ -40,7 +41,7 @@ class Gameplay {
                 
                 if(indexChosen == -1) return i;
 
-                if (indexChosen >= 0 && indexChosen < this->diceNumber && choices[indexChosen] == 0)
+                if (indexChosen >= 0 && indexChosen < this->DICE_NUMBER && choices[indexChosen] == 0)
                 {
                     choices[indexChosen] = dices[indexChosen];
                     printf("Vous avez gardé le dé numéro %d de valeur %d\n", indexChosen + 1, choices[indexChosen]);
@@ -86,13 +87,16 @@ class Gameplay {
         }
 
         int getUserPseudo(char *ask, char *output) {
-            char buff[sizeof(output)];
-            memset(&buff, 0, sizeof(buff));
+            char *buff;
+            memset(buff, '\0', sizeof(buff));
+            printf("getUserPseudo after memset l.92\n");
+            
+            printf(" %s", ask);
+            printf("buff = %s\n", buff);
+            std::scanf(" %s", buff);
+            printf("getUserPseudo after scanf l.97\n");
 
-            printf("%s", ask);
-            std::scanf(" %s", &buff[0]);
-
-            sprintf(output, "%s", buff);
+            strcpy(output, buff);
             return 0;
         }
             

@@ -6,7 +6,7 @@
 class Player {
 
     public:
-        Player(char *name) { this->name = name; }
+        Player() {}
 
         char *getName() { return this->name; }
 
@@ -24,11 +24,11 @@ class Player {
             
             
         }
-        void setName(char *name) { this->name = name; }
+        void setName(char *name) { strcpy(this->name, name); }
         
 
     private:
-        char *name;
+        char name[40+1];
         ScoreGrid scoreGrid;
 };
 
