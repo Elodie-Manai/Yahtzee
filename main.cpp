@@ -25,6 +25,7 @@ Gameplay gameplay;
 
 int main()
 {
+    std::srand(time(0)); // Pas besoin de l'initialiser à chaque boucle, gourmand en ressources...
     printf("Welcome to YAHZEE !\n");
 
     printf("----------------------------------\n");
@@ -51,7 +52,6 @@ int main()
         {
             for (int i = 0; i < playersNumber; i++)
             {
-                std::srand(time(0));
                 makeTurn(&players[i]);
                 stockScore(&players[i]);
             }
