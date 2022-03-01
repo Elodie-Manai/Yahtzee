@@ -4,10 +4,11 @@
 // 2 : Faire un array de players avec peut-être un menu pour choisir son pseudo - EN COURS
 // 3 : Afficher la fin (les scores et qui gagne !)
 // 4 : Je vais ouvrir une mini API pour pouvoir sauvegarder les scores pour la présentation :p
-// 5 : il faut qu'on rajout le déblocage des 35 points quand on arrive à 63 points avec 1,2,3,4,5,6 - OK
-// 6 : faire un fonction selectCombination()
+// 5 : il faut qu'on rajoute le déblocage des 35 points quand on arrive à 63 points avec 1,2,3,4,5,6 - OK
+// 6 : faire une fonction selectCombination()
 // 7 : compter les tours et verifier que l'indice de l'array choisi à la fin du tour pour les combinaisons
 //     est vide (pas possible de faire deux fois la mmeme combinaison)
+// 8 : Faire en sorte que lors du dernier lap si l'utilisateur choisi c, les des restants soient selectionnes
 
 // #include <iostream>
 #include <stdio.h> // standard I/O, pour pouvoir gérer l'entrée sortie (genre les printf)
@@ -30,15 +31,14 @@ int main()
 
     printf("----------------------------------\n");
 
-
     int playersNumber = gameplay.getUserChoice((char *)"How many are you?\t", 'c') + 1;
     if (playersNumber > 0)
     {
         Player players[playersNumber <= gameplay.MAX_PLAYER ? playersNumber : gameplay.MAX_PLAYER];
         printf("Nombre de joueurs : %d\n", playersNumber);
         char name[40 + 1];
-        
-        for (int i = 0; i <= playersNumber; i++)
+
+        for (int i = 0; i <= playersNumber - 1; i++)
         {
             memset(name, '\0', 41);
             gameplay.getUserPseudo((char *)"Votre petit nom ?\t", name);
@@ -52,6 +52,8 @@ int main()
         {
             for (int i = 0; i < playersNumber; i++)
             {
+                printf("--- It's your turn %s ---\n", players[i].getName());
+
                 makeTurn(&players[i]);
                 stockScore(&players[i]);
             }
@@ -61,6 +63,9 @@ int main()
 
 int stockScore(Player *player)
 {
+    printf("main.showScore() l.66\nplayer: %s\n", player->getName());
+
+    printf("grid length: %d\n", gameplay.GRID_LENGTH);
     player->showScore(gameplay.GRID_LENGTH);
     unsigned indexChosen = gameplay.getUserChoice((char *)"Quelle est la combinaison choisie ?", 'c') + 1;
 
@@ -93,7 +98,7 @@ int makeTurn(Player *player)
         dicesKept += gameplay.chooseDices(gameplay.DICE_NUMBER - dicesKept, choices, gameplay.dices);
 
         // Show the dices kept
-        gameplay.showDices(choices, choices, gameplay.DICE_NUMBER, true);
+        gameplay.showDices(gameplay.dices, choices, gameplay.DICE_NUMBER, true);
     }
 
     return 0;
