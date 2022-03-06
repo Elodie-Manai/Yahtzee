@@ -75,15 +75,16 @@ class Gameplay {
         }
 
         int getUserChoice(char *ask, char escape) {
-            char choice;
+            char choice[2];
             memset(&choice, 0, sizeof(choice));
 
             printf("%s", ask);
-            std::scanf(" %c", &choice);
+            std::scanf(" %s", &choice[0]);
+            // printf("%s", choice);
 
-            if(choice == escape) return -1;
+            if(choice[0] == escape) return -1;
 
-            return ((int)choice - '0') - 1;
+            return atoi(choice) - 1; // Il me rajoute + 1, pas compris...
         }
 
         int getUserPseudo(char *ask, char *output) {      

@@ -19,7 +19,7 @@ class Player {
 
             for (unsigned i = 0; i < gridLength; i++)
             {
-                printf("%s : %d\n", this->scoreGrid.combinationsNames[i], gridArray[i]);
+                printf("[%d] %s : %d\n", i + 1,this->scoreGrid.combinationsNames[i], gridArray[i]);
             }
             
             
