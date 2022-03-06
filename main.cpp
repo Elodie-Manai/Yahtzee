@@ -1,15 +1,15 @@
 // TODO
 // 0 : Faire une fonction qui fonctionne VRAIMENT pour l'input de l'utilisateur - OK
 // 1 : Faire la fonction de calcul des points (easy) - OK
-// 2 : Faire un array de players avec peut-être un menu pour choisir son pseudo - EN COURS
+// 2 : Faire un array de players avec peut-être un menu pour choisir son pseudo - OK
 // 3 : Afficher la fin (les scores et qui gagne !)
-// 4 : Je vais ouvrir une mini API pour pouvoir sauvegarder les scores pour la présentation :p
+// 4 : Je vais ouvrir une mini API pour pouvoir sauvegarder les scores pour la présentation :p - OK
 // 5 : il faut qu'on rajout le déblocage des 35 points quand on arrive à 63 points avec 1,2,3,4,5,6 - OK
-// 6 : faire un fonction selectCombination()
+// 6 : faire une fonction selectCombination() - OK
 // 7 : compter les tours et verifier que l'indice de l'array choisi à la fin du tour pour les combinaisons
-//     est vide (pas possible de faire deux fois la mmeme combinaison)
+//     est vide (pas possible de faire deux fois la mmeme combinaison) - OK
+// 8 : Petite Suite ne marche pas, tester les autres combinaisons (Full et 1,2,3,4,5 marchent)
 
-// #include <iostream>
 #include <stdio.h> // standard I/O, pour pouvoir gérer l'entrée sortie (genre les printf)
 #include <stdlib.h>
 #include <time.h>
@@ -19,7 +19,7 @@
 #include "Gameplay.h"
 
 int stockScore(Player *player);
-int makeTurn(Player *player);
+int makeLap(Player *player);
 
 Gameplay gameplay;
 
@@ -50,9 +50,10 @@ int main()
 
         for (unsigned turns = 0; turns < gameplay.TURNS; turns++)
         {
+            printf("--- Turn %d ---\n", turns + 1);
             for (int i = 0; i < playersNumber; i++)
             {
-                makeTurn(&players[i]);
+                makeLap(&players[i]);
                 stockScore(&players[i]);
             }
         }
@@ -64,36 +65,36 @@ int stockScore(Player *player)
     player->showScore(gameplay.GRID_LENGTH);
     unsigned indexChosen = gameplay.getUserChoice((char *)"Quelle est la combinaison choisie ?", 'c');
 
-    player->setScore(indexChosen, gameplay.dices);
+    player->setScore(indexChosen, gameplay.choices);
     return 0;
 }
 
-int makeTurn(Player *player)
+int makeLap(Player *player)
 {
-    unsigned choices[gameplay.DICE_NUMBER];
     unsigned dicesKept = 0;
+    memset(gameplay.dices, 0, gameplay.DICE_NUMBER * sizeof(int));
+    memset(gameplay.choices, 0, gameplay.DICE_NUMBER * sizeof(int));
 
-    memset(gameplay.dices, 0, gameplay.DICE_NUMBER);
-    memset(&choices, 0, sizeof(choices));
     printf("--- It's your turn %s ---\n", player->getName());
 
     // will run for at least 1 turn and at most 3 turns
     for (unsigned i = 0; i < gameplay.LAPS && dicesKept < gameplay.DICE_NUMBER; i++)
     {
-        printf("--- Turn %d ---\n", i + 1);
+        printf("--- Lap %d ---\n", i + 1);
         memset(gameplay.dices, 0, gameplay.DICE_NUMBER);
         // Throw the dices
-        gameplay.throwDices(gameplay.DICE_NUMBER, gameplay.dices, choices);
+        gameplay.throwDices(gameplay.DICE_NUMBER, gameplay.dices, gameplay.choices);
 
         // Show the dices that were thrown
-        gameplay.showDices(gameplay.dices, choices, gameplay.DICE_NUMBER, false);
+        gameplay.showDices(gameplay.dices, gameplay.choices, gameplay.DICE_NUMBER, false);
         printf("Choose your dices wisely!\n");
 
         // Add the chosen dices in choices
-        dicesKept += gameplay.chooseDices(gameplay.DICE_NUMBER - dicesKept, choices, gameplay.dices);
+        dicesKept += gameplay.chooseDices(gameplay.DICE_NUMBER - dicesKept, gameplay.dices, gameplay.choices);
 
         // Show the dices kept
-        gameplay.showDices(choices, choices, gameplay.DICE_NUMBER, true);
+        gameplay.showDices(gameplay.dices, gameplay.choices, gameplay.DICE_NUMBER, true);
+
     }
 
     return 0;

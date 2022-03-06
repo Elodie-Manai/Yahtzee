@@ -14,6 +14,7 @@ class Gameplay {
         const unsigned GRID_LENGTH = 13;
         const unsigned TURNS = 13;
         unsigned dices[5];
+        unsigned choices[5];
 
         int throwDices(unsigned diceNumber, unsigned *dices, unsigned *choices)
         {
@@ -27,7 +28,7 @@ class Gameplay {
             return 0;
         }
 
-        int chooseDices(unsigned diceSize, unsigned *choices, unsigned *dices)
+        int chooseDices(unsigned diceSize, unsigned *dices, unsigned *choices)
         {
             unsigned indexChosen = 0;
             int i;
@@ -66,8 +67,8 @@ class Gameplay {
 
             for (unsigned i = 0; i < diceNumber; i++)
             {
-                if (isChosenDices && choices[i] != 0) printf("Dice %d: %d\n", i + 1, choices[i]);
-                if (!isChosenDices && choices[i] == 0) printf("Dice %d: %d\n", i + 1, dices[i]);
+                if (isChosenDices && choices[i] != 0) printf("Dice [%d]: %d\n", i + 1, choices[i]);
+                if (!isChosenDices && choices[i] == 0) printf("Dice [%d]: %d\n", i + 1, dices[i]);
             }
             printf("----------------------------------\n");
 
@@ -80,7 +81,6 @@ class Gameplay {
 
             printf("%s", ask);
             std::scanf(" %s", &choice[0]);
-            // printf("%s", choice);
 
             if(choice[0] == escape) return -1;
 

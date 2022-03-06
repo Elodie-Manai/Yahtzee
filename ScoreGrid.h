@@ -7,14 +7,16 @@ class ScoreGrid
 {
 
     public:
+        ScoreGrid() {memset(this->gridArray, 0, 13 * sizeof(unsigned));}
+        
         char *combinationsNames[13] = {(char *)"one", (char *)"two", (char *)"three", (char *)"four",
                                        (char *)"five", (char *)"six", (char *)"Brelan", (char *)"Carre", 
                                        (char *)"Petite suite", (char *)"Grande suite", (char *)"Full", 
                                        (char *)"Yahtzee", (char *)"Chance"};
-        ScoreGrid() {}
+        
         void getGrid(int *grille, char **combinations)
         {
-            grille = this->gridArray;
+            memcpy(grille, this->gridArray, sizeof(this->gridArray));
             combinations = this->combinationsNames;
         };
         void setPoints(unsigned indexGrid, unsigned dices[5]) {
@@ -35,23 +37,16 @@ class ScoreGrid
 
     private:
         Gameplay gameplay;
-        // const int DICE_NUMBER = gameplay.DICE_NUMBER; 
         int gridArray[13]; 
         
         int setGrid(int *gridArray, int index, unsigned pts) {
-            // if (index - 1 < 0 || index - 1 > sizeof(gridArray)) return -1;
-            gridArray[index - 1] = pts;
+            gridArray[index] = pts;
             return 0;
         }
         unsigned getPoints(unsigned indexGrid, unsigned *dices, unsigned sizeOfDices)
         {
             unsigned pts = 0;
             bool isValid = false;
-            // printf("call me baby ! %d", indexGrid);
-            
-            for(unsigned i = 0; i < sizeOfDices; i++) printf("dice %d : %d\n", i, dices[i]);
-
-            // printf("indexGrid choosen : %d\n", indexGrid);
 
             switch (indexGrid)
             {
