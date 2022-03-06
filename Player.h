@@ -12,20 +12,16 @@ class Player {
 
         void setScore(unsigned choice, unsigned *dices) { this->scoreGrid.setPoints(choice, dices); }
 
-        int showScore(unsigned gridLength) {  
-            printf("player.showScore() l.16");
+        void showScore(unsigned gridLength) {  
             int gridArray[13];
             memset(gridArray, 0, 13 * sizeof(int));
-
-            char *combinationsNames;
-            this->scoreGrid.getGrid(gridArray, combinationsNames);
+            this->scoreGrid.getGrid(gridArray, this->scoreGrid.combinationsNames);
 
             for (unsigned i = 0; i < gridLength; i++)
             {
-                // printf("%s : %d\n", combinationsNames[i], gridArray[i]);
-                printf("%s\n", combinationsNames[i]);
+                printf("%s : %d\n", this->scoreGrid.combinationsNames[i], gridArray[i]);
             }
-            return 0;
+            
             
         }
         void setName(char *name) { strcpy(this->name, name); }

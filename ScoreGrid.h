@@ -7,6 +7,10 @@ class ScoreGrid
 {
 
     public:
+        char *combinationsNames[13] = {(char *)"one", (char *)"two", (char *)"three", (char *)"four",
+                                       (char *)"five", (char *)"six", (char *)"Brelan", (char *)"Carre", 
+                                       (char *)"Petite suite", (char *)"Grande suite", (char *)"Full", 
+                                       (char *)"Yahtzee", (char *)"Chance"};
         ScoreGrid() {}
         void getGrid(int *grille, char **combinations)
         {
@@ -32,11 +36,7 @@ class ScoreGrid
     private:
         Gameplay gameplay;
         // const int DICE_NUMBER = gameplay.DICE_NUMBER; 
-        int gridArray[13];
-        char *combinationsNames[13] = {(char *)"one", (char *)"two", (char *)"three", (char *)"four",
-                                        (char *)"five", (char *)"six", (char *)"Brelan", (char *)"Carre", 
-                                        (char *)"Petite suite", (char *)"Grande suite", (char *)"Full", 
-                                        (char *)"Yahtzee", (char *)"Chance"}; 
+        int gridArray[13]; 
         
         int setGrid(int *gridArray, int index, unsigned pts) {
             if (index - 1 < 0 || index - 1 > sizeof(gridArray)) return -1;
