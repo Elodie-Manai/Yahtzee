@@ -3,7 +3,8 @@
 
 #include "ScoreGrid.h"
 
-class Player {
+class Player
+{
 
     public:
         Player() {}
@@ -12,7 +13,8 @@ class Player {
 
         void setScore(unsigned choice, unsigned *dices) { this->scoreGrid.setPoints(choice, dices); }
 
-        void showScore(unsigned gridLength) {  
+        void showScore(unsigned gridLength)
+        {
             int gridArray[13];
             memset(gridArray, 0, 13 * sizeof(int));
             this->scoreGrid.getGrid(gridArray, this->scoreGrid.combinationsNames);
@@ -21,16 +23,18 @@ class Player {
             {
                 printf("[%d] %s : %d\n", i + 1, this->scoreGrid.combinationsNames[i], gridArray[i]);
             }
-            
-            
         }
+
         void setName(char *name) { strcpy(this->name, name); }
-        
+
+        int returnScore()
+        {
+            return this->scoreGrid.calculateScore();
+        }
 
     private:
-        char name[40+1];
+        char name[40 + 1];
         ScoreGrid scoreGrid;
 };
 
 #endif
-

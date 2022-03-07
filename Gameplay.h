@@ -21,8 +21,6 @@ class Gameplay {
             
             for (unsigned i = 0; i < diceNumber; i++)
             {
-                // printf("---------------------------\n");
-                // printf("choices[i] = %d && i = %d\n", choices[i], i);
                 if(choices[i] == 0) dices[i] = (unsigned)(rand() % 6) + 1;
             }
             return 0;
@@ -36,7 +34,7 @@ class Gameplay {
             for (i = 0; i < diceSize; i++)
             {
                 char dicesLeft[63 + 1];
-                sprintf(dicesLeft, "Vous pouvez encore garder jusqu'à %d dé(s), c pour quitter :", diceSize - i);
+                sprintf(dicesLeft, "You still can choose %d dice(s), select 'c' to quit:", diceSize - i);
 
                 indexChosen = this->getUserChoice(dicesLeft, 'c');
                 
@@ -45,7 +43,7 @@ class Gameplay {
                 if (indexChosen >= 0 && indexChosen < this->DICE_NUMBER && choices[indexChosen] == 0)
                 {
                     choices[indexChosen] = dices[indexChosen];
-                    printf("Vous avez gardé le dé numéro %d de valeur %d\n", indexChosen + 1, choices[indexChosen]);
+                    printf("You chose dice n°%d of value: %d\n", indexChosen + 1, choices[indexChosen]);
                 }
                 else i--;
             }
@@ -84,7 +82,7 @@ class Gameplay {
 
             if(choice[0] == escape) return -1;
 
-            return atoi(choice) - 1; // Il me rajoute + 1, pas compris...
+            return atoi(choice) - 1; // It's adding +1 for a myterious reason, so we need to substract one...
         }
 
         int getUserPseudo(char *ask, char *output) {      

@@ -14,9 +14,9 @@ class ScoreGrid
                                        (char *)"Petite suite", (char *)"Grande suite", (char *)"Full", 
                                        (char *)"Yahtzee", (char *)"Chance"};
         
-        void getGrid(int *grille, char **combinations)
+        void getGrid(int *gridArray, char **combinations)
         {
-            memcpy(grille, this->gridArray, sizeof(this->gridArray));
+            memcpy(gridArray, this->gridArray, sizeof(this->gridArray));
             combinations = this->combinationsNames;
         };
         void setPoints(unsigned indexGrid, unsigned dices[5]) {
@@ -34,6 +34,7 @@ class ScoreGrid
 
             return score;
         };
+        
 
     private:
         Gameplay gameplay;
@@ -108,8 +109,9 @@ class ScoreGrid
                     pts = -1;
                     break;
             }
-
-            printf("Points gagnés : %d\n", pts); // Debug
+            printf("----------------------------------\n");
+            printf("Points won: %d\n", pts); // Debug
+            printf("----------------------------------\n");
             return pts;
         }
 
