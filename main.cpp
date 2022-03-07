@@ -16,7 +16,7 @@
     Chance : Ok
 */
 
-#include <stdio.h> // standard I/O, pour pouvoir gérer l'entrée sortie (genre les printf)
+#include <stdio.h> // standard I/O, to inputs and outputs (like printf)
 #include <stdlib.h>
 #include <time.h>
 #include <cstdio>
