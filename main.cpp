@@ -1,15 +1,7 @@
 // TODO
-// 0 : Faire une fonction qui fonctionne VRAIMENT pour l'input de l'utilisateur - OK
-// 1 : Faire la fonction de calcul des points (easy) - OK
-// 2 : Faire un array de players avec peut-être un menu pour choisir son pseudo - OK
-// 3 : Afficher la fin (les scores et qui gagne !)
-// 4 : Je vais ouvrir une mini API pour pouvoir sauvegarder les scores pour la présentation :p - OK
-// 5 : il faut qu'on rajout le déblocage des 35 points quand on arrive à 63 points avec 1,2,3,4,5,6 - OK
-// 6 : faire une fonction selectCombination() - OK
-// 7 : compter les tours et verifier que l'indice de l'array choisi à la fin du tour pour les combinaisons
-//     est vide (pas possible de faire deux fois la mmeme combinaison) - OK
-// 8 : Petite Suite ne marche pas, tester les autres combinaisons (Full et 1,2,3,4,5 marchent) - EN COURS
-// 9 : Si on choisi une combinaison et que l'on ne marque pas de points on peut à nouveau la sélectionner.
+// 0 : Afficher la fin (les scores et qui gagne !) - EN COURS (manque afficher WINNER)
+// 1 : Petite Suite ne marche pas, tester les autres combinaisons (Full et 1,2,3,4,5 marchent) - EN COURS
+// 2 : Si on choisi une combinaison et que l'on ne marque pas de points on peut à nouveau la sélectionner.
 //     il faudrait trouver une solution pour ne pas la rechoisir. Je propose de setter le tableau avec des -1
 //     au lieu de 0, de cette façon si c'est -1 il est possible de selectionner si c'est 0 on ne peut pas
 
