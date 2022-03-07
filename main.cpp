@@ -1,88 +1,119 @@
-// #include <iostream>
+// TODO
+// 0 : Faire une fonction qui fonctionne VRAIMENT pour l'input de l'utilisateur - OK
+// 1 : Faire la fonction de calcul des points (easy) - OK
+// 2 : Faire un array de players avec peut-être un menu pour choisir son pseudo - OK
+// 3 : Afficher la fin (les scores et qui gagne !)
+// 4 : Je vais ouvrir une mini API pour pouvoir sauvegarder les scores pour la présentation :p - OK
+// 5 : il faut qu'on rajout le déblocage des 35 points quand on arrive à 63 points avec 1,2,3,4,5,6 - OK
+// 6 : faire une fonction selectCombination() - OK
+// 7 : compter les tours et verifier que l'indice de l'array choisi à la fin du tour pour les combinaisons
+//     est vide (pas possible de faire deux fois la mmeme combinaison) - OK
+// 8 : Petite Suite ne marche pas, tester les autres combinaisons (Full et 1,2,3,4,5 marchent)
+
+/*
+    Top : Ok 
+    Brelan : Ok
+    Carre : Ok
+    Petite suite : NOK
+    Grande suite : Ok
+    Full : Ok
+    Yahtzee : Ok
+    Chance : Ok
+*/
+
 #include <stdio.h> // standard I/O, pour pouvoir gérer l'entrée sortie (genre les printf)
 #include <stdlib.h>
+#include <time.h>
 #include <cstdio>
 #include <cstring>
-#define LAPS 3
-#define DICE_NUMBER 5
+#include "Player.h"
+#include "Gameplay.h"
 
-int throwDices(unsigned, unsigned *);
-int chooseDices(unsigned, unsigned *, unsigned *);
-int showDices(unsigned *, unsigned, const char *);
+// #define CHEAT
+
+int stockScore(Player *player);
+int makeLap(Player *player);
+
+Gameplay gameplay;
 
 int main()
 {
-    printf("Welcome to YAHZEE!!!\n");
+    std::srand(time(0)); // Pas besoin de l'initialiser à chaque boucle, gourmand en ressources...
+    printf("Welcome to YAHZEE !\n");
+
     printf("----------------------------------\n");
 
-    unsigned dices[DICE_NUMBER];
-    unsigned choices[DICE_NUMBER];
-    unsigned dicesKept = 0;
 
-    memset(dices, 0, DICE_NUMBER);
-    memset(&choices, 0, sizeof(choices));
-
-    for (unsigned i = 0; i < LAPS && dicesKept < DICE_NUMBER; i++)
+    int playersNumber = gameplay.getUserChoice((char *)"How many are you?\t", 'c') + 1;
+    if (playersNumber > 0)
     {
-        dicesKept = 0;
-        printf("--- Turn %d ---\n", i + 1);
-        throwDices(DICE_NUMBER, dices);
-        showDices(dices, DICE_NUMBER, "The dices you thrown are:");
-        printf("Choose your dices wisely!\n");
-        dicesKept += chooseDices(DICE_NUMBER - dicesKept, choices, dices);
-        showDices(choices, dicesKept, "The dices you chose are:");
-        memset(dices, 0, DICE_NUMBER);
-        memset(&choices, 0, sizeof(choices));
-    }
-    return 0;
-}
+        Player players[playersNumber <= gameplay.MAX_PLAYER ? playersNumber : gameplay.MAX_PLAYER];
+        printf("Nombre de joueurs : %d\n", playersNumber);
+        char name[40 + 1];
+        
+        for (int i = 0; i < playersNumber; i++)
+        {
+            memset(name, '\0', 41);
+            gameplay.getUserPseudo((char *)"Votre petit nom ?\t", name);
 
-int throwDices(unsigned diceNumber, unsigned *input)
-{
-    for (unsigned i = 0; i < diceNumber; i++)
-    {
-        input[i] = (unsigned)(rand() % 6) + 1;
-    }
-    return 0;
-}
+            players[i].setName(name);
 
-int chooseDices(unsigned diceNumber, unsigned *input, unsigned *dices)
-{
-    char choice;
-    unsigned index = 0;
-    int i;
-    // printf("Dice number: %d\n", diceNumber);
-
-    for (i = 0; i < diceNumber && choice != 'c'; i++)
-    {
-        //choice = '\0';
-        printf("Vous pouvez encore garder jusqu'à %d dé(s), c pour quitter :", diceNumber - i);
-        memset(&choice, 0, sizeof(choice));
-        std::scanf(" %c", &choice);
-        // fgets("%c", 1, stdin);
-        // cin >> (choice);
-        // stdin > choice
-        // memset(stdin, 0, sizeof(stdin));
-        index = ((int) choice - '0') - 1;
-        if (choice == 'c') return i;
-
-        if (index >= 0 && index < diceNumber) {
-            input[index] = dices[index];
-            printf("Vous avez gardé le dé numéro %d de valeur %d\n", index + 1, input[index]);
+            printf("Hello %s\n", name);
         }
-        else i--;
+
+        for (unsigned turns = 0; turns < gameplay.TURNS; turns++)
+        {
+            printf("--- Turn %d ---\n", turns + 1);
+            for (int i = 0; i < playersNumber; i++)
+            {
+                makeLap(&players[i]);
+                stockScore(&players[i]);
+            }
+        }
     }
-    return i;
 }
 
-int showDices(unsigned *dices, unsigned count, const char *presentationText) {
-    printf("----------------------------------\n");
-    printf("%s\n", presentationText);
-    for (unsigned i = 0; i < count; i++)
+int stockScore(Player *player)
+{
+    player->showScore(gameplay.GRID_LENGTH);
+    unsigned indexChosen = gameplay.getUserChoice((char *)"Quelle est la combinaison choisie ?", 'c');
+
+    player->setScore(indexChosen, gameplay.choices);
+    return 0;
+}
+
+int makeLap(Player *player)
+{
+    unsigned dicesKept = 0;
+    memset(gameplay.dices, 0, gameplay.DICE_NUMBER * sizeof(int));
+    memset(gameplay.choices, 0, gameplay.DICE_NUMBER * sizeof(int));
+
+    printf("--- It's your turn %s ---\n", player->getName());
+
+    // will run for at least 1 turn and at most 3 turns
+    for (unsigned i = 0; i < gameplay.LAPS && dicesKept < gameplay.DICE_NUMBER; i++)
     {
-        printf("Dice %d: %d\n", i+1, dices[i]);
+        printf("--- Lap %d ---\n", i + 1);
+        memset(gameplay.dices, 0, gameplay.DICE_NUMBER);
+        // Throw the dices
+        gameplay.throwDices(gameplay.DICE_NUMBER, gameplay.dices, gameplay.choices);
+#ifdef CHEAT
+        for(unsigned i = 0; i < 5; i++) gameplay.dices[i] = i + 1;
+        // gameplay.dices[3] = 6;
+        // gameplay.dices[4] = 6;
+#endif
+
+        // Show the dices that were thrown
+        gameplay.showDices(gameplay.dices, gameplay.choices, gameplay.DICE_NUMBER, false);
+        printf("Choose your dices wisely!\n");
+
+        // Add the chosen dices in choices
+        dicesKept += gameplay.chooseDices(gameplay.DICE_NUMBER - dicesKept, gameplay.dices, gameplay.choices);
+
+        // Show the dices kept
+        gameplay.showDices(gameplay.dices, gameplay.choices, gameplay.DICE_NUMBER, true);
+
     }
-    printf("----------------------------------\n");
 
     return 0;
 }
