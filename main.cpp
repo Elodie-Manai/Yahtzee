@@ -10,6 +10,11 @@
 //     est vide (pas possible de faire deux fois la mmeme combinaison) - OK
 // 8 : Petite Suite ne marche pas, tester les autres combinaisons (Full et 1,2,3,4,5 marchent)
 
+
+// Top : 1 : Ok, 2 : 
+// Petite suite : NOK
+//
+
 #include <stdio.h> // standard I/O, pour pouvoir gérer l'entrée sortie (genre les printf)
 #include <stdlib.h>
 #include <time.h>
@@ -17,6 +22,8 @@
 #include <cstring>
 #include "Player.h"
 #include "Gameplay.h"
+
+#define CHEAT
 
 int stockScore(Player *player);
 int makeLap(Player *player);
@@ -84,6 +91,9 @@ int makeLap(Player *player)
         memset(gameplay.dices, 0, gameplay.DICE_NUMBER);
         // Throw the dices
         gameplay.throwDices(gameplay.DICE_NUMBER, gameplay.dices, gameplay.choices);
+#ifdef CHEAT
+        for(unsigned i = 0; i < 5; i++) gameplay.dices[i] = 2;
+#endif
 
         // Show the dices that were thrown
         gameplay.showDices(gameplay.dices, gameplay.choices, gameplay.DICE_NUMBER, false);
