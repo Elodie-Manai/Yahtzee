@@ -71,13 +71,33 @@ int main()
         printf("------------- SCORES -------------\n");
         printf("///////////////////////////////////\n");
 
+        int scores[playersNumber];
         for (int i = 0; i < playersNumber; i++)
         {
-            int score = players[i].returnScore();
-            printf("- %s: %d\n", players[i].getName(), score);
+            scores[i] = players[i].returnScore();
+            printf("- %s: %d\n", players[i].getName(), scores[i]);
         }
 
         printf("----------------------------------\n");
+
+        printf("///////////////////////////////////\n");
+        printf("------- AND THE WINNER IS.. -------\n");
+        printf("///////////////////////////////////\n\n\n");
+
+        // Sort scores :
+        int bestScore = 0;
+        int winner = 0;
+
+        for(int i = 0; i < playersNumber; i++) {
+            if(bestScore < scores[i]){
+                bestScore = scores[i];
+                winner = i;
+            }   
+        }
+
+        printf("%s !! With %d points !", players[winner].getName(), bestScore);
+
+
     }
 }
 
