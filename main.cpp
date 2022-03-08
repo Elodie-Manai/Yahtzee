@@ -1,7 +1,8 @@
 // TODO
 // 0 : Afficher la fin (les scores et qui gagne !) - ok
 // 1 : Petite Suite ne marche pas, tester les autres combinaisons (Full et 1,2,3,4,5 marchent) - ok
-// 2 : Il est actuellement possible de sélectionner plusieurs fois la meme combinaison
+// 2 : Il est actuellement possible de sélectionner plusieurs fois la meme combinaison - ok
+// 3 : Verifier que le +35 pts bonus est bien attribué au joueur
 
 /*
     Top : Ok 
