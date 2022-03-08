@@ -12,8 +12,8 @@ class Gameplay {
         const unsigned DICE_NUMBER = 5;
         const unsigned MAX_PLAYER = 10;
         const unsigned GRID_LENGTH = 13;
-        // const unsigned TURNS = 13;
-        const unsigned TURNS = 1; // To test it
+        const unsigned TURNS = 13;
+        // const unsigned TURNS = 1; // To test it
 
         unsigned dices[5];
         unsigned choices[5];

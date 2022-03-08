@@ -11,7 +11,7 @@ class Player
 
         char *getName() { return this->name; }
 
-        void setScore(unsigned choice, unsigned *dices) { this->scoreGrid.setPoints(choice, dices); }
+        int setScore(unsigned choice, unsigned *dices) { return this->scoreGrid.setPoints(choice, dices); }
 
         void showScore(unsigned gridLength)
         {
@@ -21,7 +21,7 @@ class Player
 
             for (unsigned i = 0; i < gridLength; i++)
             {
-                printf("[%d] %s : %d\n", i + 1, this->scoreGrid.combinationsNames[i], gridArray[i]);
+                printf("[%d] %s : %d\n", i + 1, this->scoreGrid.combinationsNames[i], gridArray[i] == -1 ? gridArray[i] + 1 : gridArray[i]);
             }
         }
 

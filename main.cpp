@@ -1,9 +1,7 @@
 // TODO
-// 0 : Afficher la fin (les scores et qui gagne !) - EN COURS (manque afficher WINNER)
-// 1 : Petite Suite ne marche pas, tester les autres combinaisons (Full et 1,2,3,4,5 marchent) - EN COURS
-// 2 : Si on choisi une combinaison et que l'on ne marque pas de points on peut à nouveau la sélectionner.
-//     il faudrait trouver une solution pour ne pas la rechoisir. Je propose de setter le tableau avec des -1
-//     au lieu de 0, de cette façon si c'est -1 il est possible de selectionner si c'est 0 on ne peut pas
+// 0 : Afficher la fin (les scores et qui gagne !) - ok
+// 1 : Petite Suite ne marche pas, tester les autres combinaisons (Full et 1,2,3,4,5 marchent) - ok
+// 2 : Il est actuellement possible de sélectionner plusieurs fois la meme combinaison
 
 /*
     Top : Ok 
@@ -103,10 +101,16 @@ int main()
 
 int stockScore(Player *player)
 {
-    player->showScore(gameplay.GRID_LENGTH);
-    unsigned indexChosen = gameplay.getUserChoice((char *)"Which conbination do you choose?", 'c');
+    unsigned scoreSet = 1;
 
-    player->setScore(indexChosen, gameplay.choices);
+    while (scoreSet == 1)
+    {
+        player->showScore(gameplay.GRID_LENGTH);
+        unsigned indexChosen = gameplay.getUserChoice((char *)"Which conbination do you choose?", 'c');
+
+        scoreSet = player->setScore(indexChosen, gameplay.choices);
+        if (scoreSet == 1) printf("You can choose a combination only once!\nPlease select another one :)\n");
+    }
     return 0;
 }
 
